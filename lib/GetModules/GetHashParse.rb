@@ -1,41 +1,4 @@
 module HashParse
-  def hash_parse (hash)
-    hash.each { |key,value| if key=="records"
-                              #@@tt_counters = value
-                              File.open("counters", 'a+') {|file| file.write value}
-                            elsif
-                            key=="rows"
-                              value.each {|array| array.each {|keytt,valuett| if keytt=="ticketNo"
-                                                                                File.open("temp", 'a+') {|file| file.write "Номер: <a href=\"https://172.21.231.235/ttms/ticket?id=#{valuett}\">#{valuett}</a> <a href=\"https://172.21.231.235/ttms/ttedit?id=#{valuett}&block_id=1,2,3\">Решить</a> \n"}
-                                                                              elsif keytt=="depStatus"
-                                                                                if valuett!="Отдельный"
-                                                                                  File.open("temp", 'a+') {|file| file.write "Подчинение: #{valuett}\n"}
-                                                                                  @dep_status = valuett
-                                                                                end
-                                                                              elsif keytt=="ticketType"
-                                                                                File.open("temp", 'a+') {|file| file.write "Тип: #{valuett}\n"}
-                                                                              elsif keytt=="depCount"
-                                                                                  if @dep_status=="Главный"
-                                                                                    File.open("temp", 'a+') {|file| file.write "В подчинении инцидентов: #{valuett}\n"}
-                                                                                  elsif @dep_status=="Подчиненный"
-                                                                                    File.open("temp", 'a+') {|file| file.write "Главный: <a href=\"https://172.21.231.235/ttms/ticket?id=#{valuett}\">#{valuett}</a>\n"}
-                                                                                  end
-                                                                              elsif keytt=="servStat"
-                                                                                File.open("temp", 'a') {|file| file.write "Статус: #{valuett}\n"}
-                                                                              elsif keytt=="timeToSolve"
-                                                                                valuett.each {|key,value| if key=="value"
-                                                                                                            File.open("temp", 'a') {|file| file.write "Целевой срок решения: #{value}\n"}
-                                                                                                          end
-                                                                                }
-                                                                              elsif keytt=="pr"
-                                                                                File.open("temp", 'a') {|file| file.write "Приоритет: #{valuett}\n\n"}
-                                                                              end
-                                                              }
-                                          }
-                            end
-    }
-  end
-
   def get_list (hash)
     @tt = Array.new
     hash.each do |key,array|

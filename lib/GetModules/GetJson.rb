@@ -10,6 +10,8 @@ module GetJson
         http.request(require)
       end
       return response.body
+    rescue
+      p 'Net::OpenTimeout'
     end
   end
 
